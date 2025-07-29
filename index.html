@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dr. João Silva - Advogado Previdenciário</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        section {
+            transition: all 0.5s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .dark {
+            background-color: #1a202c;
+            color: #e2e8f0;
+        }
+        .dark .bg-white {
+            background-color: #2d3748;
+        }
+        .dark .bg-gray-50 {
+            background-color: #1a202c;
+        }
+        .dark .text-gray-800 {
+            color: #e2e8f0;
+        }
+        .dark .text-gray-600 {
+            color: #a0aec0;
+        }
+        .dark .bg-gray-800 {
+            background-color: #1a202c;
+        }
+        .dark .bg-gray-700 {
+            background-color: #2d3748;
+        }
+        .dark .border {
+            border-color: #4a5568;
+        }
+        .dark .shadow-sm {
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+        }
+        .dark .shadow-md {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.5);
+        }
+        .dark .shadow-lg {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.5);
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+        }
+        
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .animate-fadeInLeft {
+            animation: fadeInLeft 1s ease-out forwards;
+        }
+        .testimonial-card {
+            transition: all 0.4s ease;
+            transform: translateY(0);
+        }
+        .testimonial-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
+        }
+        
+        .service-card {
+            transition: all 0.4s ease;
+            transform: scale(1);
+        }
+        .service-card:hover {
+            transform: scale(1.03);
+        }
+        
+        .floating-button {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        .practice-area-icon {
+            font-size: 2.5rem;
+            color: #2563eb;
+            margin-bottom: 1rem;
+        }
+        .floating-button {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 50;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-50" style="opacity: 0; transition: opacity 0.5s ease;">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md sticky top-0 z-40">
+        <div class="container mx-auto px-6 py-3">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-4">
+                    <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-xl">
+                        JS
+                    </div>
+                    <span class="text-xl font-semibold text-gray-800">Dr. João Silva</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="text-blue-600 font-medium dark:text-blue-400">Início</a>
+                    <a href="#about" class="text-gray-600 hover:text-blue-600 transition dark:text-gray-300 dark:hover:text-blue-400">Sobre</a>
+                    <a href="#services" class="text-gray-600 hover:text-blue-600 transition dark:text-gray-300 dark:hover:text-blue-400">Áreas de Atuação</a>
+                    <a href="#testimonials" class="text-gray-600 hover:text-blue-600 transition dark:text-gray-300 dark:hover:text-blue-400">Depoimentos</a>
+                    <a href="#contact" class="text-gray-600 hover:text-blue-600 transition dark:text-gray-300 dark:hover:text-blue-400">Contato</a>
+                    <button id="dark-mode-toggle" class="text-gray-600 hover:text-blue-600 transition dark:text-gray-300 dark:hover:text-blue-400">
+                        <i class="fas fa-moon dark:hidden"></i>
+                        <i class="fas fa-sun hidden dark:block"></i>
+                    </button>
+                </div>
+                <div class="md:hidden">
+                    <button id="menu-toggle" class="text-gray-600 focus:outline-none">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- Mobile menu -->
+            <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4">
+                <a href="#home" class="block py-2 text-blue-600 font-medium">Início</a>
+                <a href="#about" class="block py-2 text-gray-600 hover:text-blue-600 transition">Sobre</a>
+                <a href="#services" class="block py-2 text-gray-600 hover:text-blue-600 transition">Áreas de Atuação</a>
+                <a href="#testimonials" class="block py-2 text-gray-600 hover:text-blue-600 transition">Depoimentos</a>
+                <a href="#contact" class="block py-2 text-gray-600 hover:text-blue-600 transition">Contato</a>
+                <div class="mt-4">
+                    <a href="https://wa.me/5511999999999" class="inline-block bg-green-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-600 transition">
+                        <i class="fab fa-whatsapp mr-2"></i> WhatsApp
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-gradient text-white py-20">
+        <div class="container mx-auto px-6 flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 mb-10 md:mb-0 animate-fadeInLeft">
+                <h1 class="text-4xl md:text-5xl font-bold mb-6">Especialista em Direito Previdenciário</h1>
+                <p class="text-xl mb-8">Cuidando do seu direito à aposentadoria com seriedade e eficiência.</p>
+                <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                    <a href="#appointment" class="bg-white text-blue-600 px-6 py-3 rounded-lg font-bold text-center hover:bg-gray-100 transition transform hover:-translate-y-1 hover:shadow-lg">
+                        Agendar Consulta
+                    </a>
+                    <a href="https://wa.me/5511999999999" class="bg-green-500 text-white px-6 py-3 rounded-lg font-bold text-center hover:bg-green-600 transition">
+                        Fale pelo WhatsApp
+                    </a>
+                </div>
+                <div class="mt-8 flex items-center">
+                    <div class="bg-white bg-opacity-20 rounded-full p-3 mr-4">
+                        <i class="fas fa-shield-alt text-xl"></i>
+                    </div>
+                    <p class="text-sm opacity-90">Atendimento humanizado e focado em resultados</p>
+                </div>
+            </div>
+            <div class="md:w-1/2 flex justify-center">
+                <div class="relative">
+                    <img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" 
+                         alt="Dr. João Silva" 
+                         class="rounded-lg shadow-2xl w-full max-w-md border-4 border-white">
+                    <div class="absolute -bottom-5 -right-5 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-lg">
+                        <p class="font-bold">OAB/SP 123.456</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Stats -->
+    <section class="bg-white py-12 shadow-sm">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <div class="p-6">
+                    <div class="text-4xl font-bold text-blue-600 mb-2">15+</div>
+                    <p class="text-gray-600">Anos de Experiência</p>
+                </div>
+                <div class="p-6">
+                    <div class="text-4xl font-bold text-blue-600 mb-2">500+</div>
+                    <p class="text-gray-600">Processos Atendidos</p>
+                </div>
+                <div class="p-6">
+                    <div class="text-4xl font-bold text-blue-600 mb-2">100%</div>
+                    <p class="text-gray-600">Dedicação ao Cliente</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Sobre o Advogado</h2>
+                <div class="w-20 h-1 bg-blue-600 mx-auto"></div>
+            </div>
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/3 mb-10 md:mb-0 flex justify-center">
+                    <img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80" 
+                         alt="Dr. João Silva" 
+                         class="rounded-full w-64 h-64 object-cover border-4 border-blue-600 shadow-lg">
+                </div>
+                <div class="md:w-2/3 md:pl-12">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Dr. João Silva</h3>
+                    <p class="text-gray-600 mb-6">Advogado especializado em Direito Previdenciário com mais de 15 anos de experiência, dedicado a garantir os direitos dos trabalhadores junto ao INSS e à Justiça Federal.</p>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-bold text-gray-800 mb-2">Formação Acadêmica:</h4>
+                        <ul class="list-disc list-inside text-gray-600">
+                            <li>Bacharel em Direito - Universidade de São Paulo (USP)</li>
+                            <li>Pós-Graduação em Direito Previdenciário - PUC/SP</li>
+                            <li>Mestrado em Direito Social - USP</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-bold text-gray-800 mb-2">Experiência Profissional:</h4>
+                        <ul class="list-disc list-inside text-gray-600">
+                            <li>Advogado autônomo especializado em Direito Previdenciário desde 2008</li>
+                            <li>Ex-assessor jurídico da 1ª Vara Federal de São Paulo</li>
+                            <li>Professor convidado em cursos de pós-graduação</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-bold text-gray-800 mb-2">Valores do Escritório:</h4>
+                        <div class="flex flex-wrap gap-4">
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">Ética</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">Empatia</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">Transparência</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">Agilidade</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">Atendimento Humanizado</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Áreas de Atuação</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Especializado em todas as modalidades de benefícios previdenciários, com atendimento personalizado para cada caso.</p>
+                <div class="w-20 h-1 bg-blue-600 mx-auto mt-4"></div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Service 1 -->
+                <div class="bg-gray-50 p-8 rounded-lg shadow-sm hover:shadow-md transition service-card">
+                    <div class="practice-area-icon">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Aposentadoria por Idade</h3>
+                    <p class="text-gray-600 mb-4">Orientações sobre requisitos e documentação necessária para solicitar sua aposentadoria por idade, tanto urbana quanto rural.</p>
+                    <button class="text-blue-600 font-medium hover:text-blue-800 transition">Saiba mais →</button>
+                </div>
+                
+                <!-- Service 2 -->
+                <div class="bg-gray-50 p-8 rounded-lg shadow-sm hover:shadow-md transition">
+                    <div class="practice-area-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Aposentadoria por Tempo de Contribuição</h3>
+                    <p class="text-gray-600 mb-4">Análise do seu tempo de contribuição e orientação sobre regras de transição e direito adquirido.</p>
+                    <button class="text-blue-600 font-medium hover:text-blue-800 transition">Saiba mais →</button>
+                </div>
+                
+                <!-- Service 3 -->
+                <div class="bg-gray-50 p-8 rounded-lg shadow-sm hover:shadow-md transition">
+                    <div class="practice-area-icon">
+                        <i class="fas fa-hard-hat"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Aposentadoria Especial</h3>
+                    <p class="text-gray-600 mb-4">Atendimento especializado para profissionais que trabalham em condições de risco ou insalubridade.</p>
+                    <button class="text-blue-600 font-medium hover:text-blue-800 transition">Saiba mais →</button>
+                </div>
+                
+                <!-- Service 4 -->
+                <div class="bg-gray-50 p-8 rounded-lg shadow-sm hover:shadow-md transition">
+                    <div class="practice-area-icon">
+                        <i class="fas fa-tractor"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Aposentadoria Rural</h3>
+                    <p class="text-gray-600 mb-4">Assessoria completa para trabalhadores rurais e segurados especiais, com comprovação de atividade.</p>
+                    <button class="text-blue-600 font-medium hover:text-blue-800 transition">Saiba mais →</button>
+                </div>
+                
+                <!-- Service 5 -->
+                <div class="bg-gray-50 p-8 rounded-lg shadow-sm hover:shadow-md transition">
+                    <div class="practice-area-icon">
+                        <i class="fas fa-procedures"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Auxílio-Doença e Auxílio-Acidente</h3>
+                    <p class="text-gray-600 mb-4">Assistência para obtenção de benefícios quando o segurado está temporariamente incapaz para o trabalho.</p>
+                    <button class="text-blue-600 font-medium hover:text-blue-800 transition">Saiba mais →</button>
+                </div>
+                
+                <!-- Service 6 -->
+                <div class="bg-gray-50 p-8 rounded-lg shadow-sm hover:shadow-md transition">
+                    <div class="practice-area-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Pensão por Morte</h3>
+                    <p class="text-gray-600 mb-4">Assessoria para dependentes requererem o benefício após o falecimento do segurado.</p>
+                    <button class="text-blue-600 font-medium hover:text-blue-800 transition">Saiba mais →</button>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="#contact" class="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-700 transition">
+                    Fale com um especialista
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Depoimentos de Clientes</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Veja o que nossos clientes têm a dizer sobre nosso trabalho.</p>
+                <div class="w-20 h-1 bg-blue-600 mx-auto mt-4"></div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="bg-white p-8 rounded-lg shadow-sm testimonial-card">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold mr-4">
+                            M.S.
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-800">Maria S.</h4>
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 italic">"Depois de ter meu pedido negado duas vezes pelo INSS, o Dr. João conseguiu minha aposentadoria rural em menos de 6 meses. Atendimento excelente e muito paciente para explicar todo o processo."</p>
+                </div>
+                
+                <!-- Testimonial 2 -->
+                <div class="bg-white p-8 rounded-lg shadow-sm testimonial-card">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold mr-4">
+                            J.R.
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-800">José R.</h4>
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 italic">"O escritório me ajudou a conseguir a revisão da minha aposentadoria, aumentando em 40% o valor que eu recebia. Profissionalismo e competência em todas as etapas."</p>
+                </div>
+                
+                <!-- Testimonial 3 -->
+                <div class="bg-white p-8 rounded-lg shadow-sm testimonial-card">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold mr-4">
+                            A.F.
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-800">Ana F.</h4>
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 italic">"Consegui minha pensão por morte graças ao trabalho do Dr. João. Mesmo com todas as dificuldades do processo, ele foi incansável e conseguiu o benefício para mim e meus filhos."</p>
+                </div>
+            </div>
+            
+            <!-- Video Testimonials (optional) -->
+            <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-gray-200 rounded-lg overflow-hidden aspect-video flex items-center justify-center">
+                    <div class="text-center p-6">
+                        <i class="fas fa-play-circle text-5xl text-blue-600 mb-4"></i>
+                        <p class="font-medium text-gray-800">Depoimento em vídeo</p>
+                    </div>
+                </div>
+                <div class="bg-gray-200 rounded-lg overflow-hidden aspect-video flex items-center justify-center">
+                    <div class="text-center p-6">
+                        <i class="fas fa-play-circle text-5xl text-blue-600 mb-4"></i>
+                        <p class="font-medium text-gray-800">Depoimento em vídeo</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Appointment Section -->
+    <section id="appointment" class="py-20 bg-blue-600 text-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4">Agende sua Consulta</h2>
+                <p class="max-w-2xl mx-auto opacity-90">Atendimento presencial em São Paulo/SP ou por videochamada para todo o Brasil.</p>
+                <div class="w-20 h-1 bg-white mx-auto mt-4"></div>
+            </div>
+            
+            <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
+                <div class="md:flex">
+                    <div class="md:w-1/2 bg-blue-700 p-8 text-white">
+                        <h3 class="text-xl font-bold mb-4">Informações sobre a Consulta</h3>
+                        <ul class="space-y-4">
+                            <li class="flex items-start">
+                                <i class="fas fa-clock mt-1 mr-3"></i>
+                                <span>Duração: 45-60 minutos</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-money-bill-wave mt-1 mr-3"></i>
+                                <span>Valor: R$ 300,00 (dedutível se contratar nossos serviços)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-file-alt mt-1 mr-3"></i>
+                                <span>Traga seus documentos para análise</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-calendar-check mt-1 mr-3"></i>
+                                <span>Horários flexíveis, inclusive aos sábados</span>
+                            </li>
+                        </ul>
+                        
+                        <div class="mt-8">
+                            <h4 class="font-bold mb-3">Formas de Pagamento:</h4>
+                            <div class="flex space-x-4">
+                                <i class="fab fa-cc-visa text-2xl"></i>
+                                <i class="fab fa-cc-mastercard text-2xl"></i>
+                                <i class="fab fa-cc-paypal text-2xl"></i>
+                                <i class="fas fa-money-bill-wave text-2xl"></i>
+                                <i class="fas fa-barcode text-2xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="md:w-1/2 p-8 text-gray-800">
+                        <h3 class="text-xl font-bold mb-6">Escolha seu horário</h3>
+                        <form>
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2" for="name">Nome Completo</label>
+                                <input type="text" id="name" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2" for="email">E-mail</label>
+                                <input type="email" id="email" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2" for="phone">Telefone</label>
+                                <input type="tel" id="phone" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2" for="date">Data Preferencial</label>
+                                <input type="date" id="date" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div class="mb-6">
+                                <label class="block text-gray-700 mb-2" for="service">Tipo de Atendimento</label>
+                                <select id="service" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option>Selecione...</option>
+                                    <option>Presencial (São Paulo/SP)</option>
+                                    <option>Videochamada</option>
+                                    <option>Telefone</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700 transition">
+                                Agendar Consulta
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-8">
+                <p class="mb-4">Ou se preferir, agende diretamente pelo WhatsApp:</p>
+                <a href="https://wa.me/5511999999999" class="inline-block bg-green-500 text-white px-6 py-3 rounded-lg font-bold hover:bg-green-600 transition">
+                    <i class="fab fa-whatsapp mr-2"></i> Agendar pelo WhatsApp
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Entre em Contato</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Estamos à disposição para esclarecer suas dúvidas sobre Direito Previdenciário.</p>
+                <div class="w-20 h-1 bg-blue-600 mx-auto mt-4"></div>
+            </div>
+            
+            <div class="flex flex-col md:flex-row gap-12">
+                <div class="md:w-1/2">
+                    <div class="bg-gray-50 p-8 rounded-lg shadow-sm">
+                        <h3 class="text-xl font-bold text-gray-800 mb-6">Informações de Contato</h3>
+                        
+                        <div class="space-y-6">
+                            <div class="flex items-start">
+                                <div class="bg-blue-100 p-3 rounded-full mr-4">
+                                    <i class="fas fa-map-marker-alt text-blue-600"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-800">Escritório Principal</h4>
+                                    <p class="text-gray-600">Av. Paulista, 1000 - Sala 123<br>São Paulo/SP - CEP 01310-100</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="bg-blue-100 p-3 rounded-full mr-4">
+                                    <i class="fas fa-phone-alt text-blue-600"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-800">Telefone</h4>
+                                    <p class="text-gray-600">(11) 9999-9999</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="bg-blue-100 p-3 rounded-full mr-4">
+                                    <i class="fas fa-envelope text-blue-600"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-800">E-mail</h4>
+                                    <p class="text-gray-600">contato@drjoaosilva.com.br</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="bg-blue-100 p-3 rounded-full mr-4">
+                                    <i class="fas fa-clock text-blue-600"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-800">Horário de Atendimento</h4>
+                                    <p class="text-gray-600">Segunda a Sexta: 9h às 18h<br>Sábado: 9h às 13h</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8">
+                            <h4 class="font-bold text-gray-800 mb-4">Redes Sociais</h4>
+                            <div class="flex space-x-4">
+                                <a href="#" class="bg-blue-100 text-blue-600 p-3 rounded-full hover:bg-blue-200 transition">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                                <a href="#" class="bg-blue-100 text-blue-600 p-3 rounded-full hover:bg-blue-200 transition">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                                <a href="#" class="bg-blue-100 text-blue-600 p-3 rounded-full hover:bg-blue-200 transition">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                                <a href="#" class="bg-blue-100 text-blue-600 p-3 rounded-full hover:bg-blue-200 transition">
+                                    <i class="fab fa-youtube"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="md:w-1/2">
+                    <div class="bg-gray-50 p-8 rounded-lg shadow-sm">
+                        <h3 class="text-xl font-bold text-gray-800 mb-6">Envie uma Mensagem</h3>
+                        <form>
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2" for="contact-name">Nome Completo</label>
+                                <input type="text" id="contact-name" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2" for="contact-email">E-mail</label>
+                                <input type="email" id="contact-email" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2" for="contact-phone">Telefone</label>
+                                <input type="tel" id="contact-phone" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2" for="contact-subject">Assunto</label>
+                                <select id="contact-subject" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option>Selecione...</option>
+                                    <option>Aposentadoria</option>
+                                    <option>Auxílio-Doença</option>
+                                    <option>Pensão por Morte</option>
+                                    <option>BPC/LOAS</option>
+                                    <option>Revisão de Benefício</option>
+                                    <option>Outro</option>
+                                </select>
+                            </div>
+                            <div class="mb-6">
+                                <label class="block text-gray-700 mb-2" for="contact-message">Mensagem</label>
+                                <textarea id="contact-message" rows="4" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                            </div>
+                            <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700 transition">
+                                Enviar Mensagem
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-12 rounded-lg overflow-hidden shadow-lg">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.197584455882!2d-46.6586759246871!3d-23.56134657880083!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce59ceb1eb771f%3A0xe904f6a669744da1!2sAv.%20Paulista%2C%201000%20-%20Bela%20Vista%2C%20S%C3%A3o%20Paulo%20-%20SP%2C%2001310-100!5e0!3m2!1sen!2sbr!4v1689875433585!5m2!1sen!2sbr" 
+                        width="100%" 
+                        height="450" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Privacy Policy -->
+    <section class="py-12 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">Política de Privacidade e LGPD</h2>
+                <div class="prose prose-blue">
+                    <p>Este site respeita a privacidade dos visitantes e segue as diretrizes da Lei Geral de Proteção de Dados (LGPD - Lei 13.709/2018).</p>
+                    
+                    <h3 class="font-bold text-gray-800 mt-6">Dados Coletados</h3>
+                    <p>Podemos coletar informações pessoais como nome, e-mail, telefone e dados sobre seu caso quando você preenche formulários em nosso site ou entra em contato conosco.</p>
+                    
+                    <h3 class="font-bold text-gray-800 mt-6">Finalidade do Tratamento</h3>
+                    <p>Os dados coletados são utilizados exclusivamente para:</p>
+                    <ul class="list-disc list-inside">
+                        <li>Prestar os serviços jurídicos solicitados</li>
+                        <li>Responder a consultas e dúvidas</li>
+                        <li>Agendar consultas e atendimentos</li>
+                        <li>Enviar informações relevantes sobre nossos serviços (com consentimento)</li>
+                    </ul>
+                    
+                    <h3 class="font-bold text-gray-800 mt-6">Compartilhamento de Dados</h3>
+                    <p>Não compartilhamos seus dados pessoais com terceiros, exceto quando necessário para a prestação de serviços jurídicos ou por exigência legal.</p>
+                    
+                    <h3 class="font-bold text-gray-800 mt-6">Direitos do Titular</h3>
+                    <p>De acordo com a LGPD, você tem direito a:</p>
+                    <ul class="list-disc list-inside">
+                        <li>Acesso aos seus dados pessoais</li>
+                        <li>Correção de dados incompletos ou inexatos</li>
+                        <li>Exclusão de dados tratados com seu consentimento</li>
+                        <li>Revogar o consentimento a qualquer momento</li>
+                    </ul>
+                    
+                    <p class="mt-6">Para exercer seus direitos ou esclarecer dúvidas sobre proteção de dados, entre em contato pelo e-mail: lgpd@drjoaosilva.com.br</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold">
+                            JS
+                        </div>
+                        <span class="text-xl font-semibold">Dr. João Silva</span>
+                    </div>
+                    <p class="text-gray-400">Especialista em Direito Previdenciário, dedicado a garantir seus direitos junto ao INSS e à Justiça Federal.</p>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Links Rápidos</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="text-gray-400 hover:text-white transition">Início</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-white transition">Sobre</a></li>
+                        <li><a href="#services" class="text-gray-400 hover:text-white transition">Áreas de Atuação</a></li>
+                        <li><a href="#testimonials" class="text-gray-400 hover:text-white transition">Depoimentos</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-white transition">Contato</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Contato</h4>
+                    <ul class="space-y-2">
+                        <li class="flex items-center">
+                            <i class="fas fa-map-marker-alt mr-2 text-gray-400"></i>
+                            <span class="text-gray-400">Av. Paulista, 1000 - SP</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-phone-alt mr-2 text-gray-400"></i>
+                            <span class="text-gray-400">(11) 9999-9999</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope mr-2 text-gray-400"></i>
+                            <span class="text-gray-400">contato@drjoaosilva.com.br</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Redes Sociais</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="bg-gray-700 text-white p-3 rounded-full hover:bg-blue-600 transition">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="bg-gray-700 text-white p-3 rounded-full hover:bg-pink-600 transition">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="bg-gray-700 text-white p-3 rounded-full hover:bg-blue-400 transition">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="bg-gray-700 text-white p-3 rounded-full hover:bg-red-600 transition">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                    <div class="mt-4">
+                        <a href="https://wa.me/5511999999999" class="inline-flex items-center bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">
+                            <i class="fab fa-whatsapp mr-2"></i> WhatsApp
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-12 pt-8 text-center text-gray-400">
+                <p>&copy; 2023 Dr. João Silva - Advogado Previdenciário. Todos os direitos reservados.</p>
+                <p class="mt-2 text-sm">OAB/SP 123.456</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/5511999999999" class="floating-button bg-green-500 text-white p-4 rounded-full hover:bg-green-600 transition">
+        <i class="fab fa-whatsapp text-2xl"></i>
+    </a>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('menu-toggle').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+
+        // Enhanced smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 20,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    const mobileMenu = document.getElementById('mobile-menu');
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                }
+            });
+        });
+
+        // Add smooth transition when page loads
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.body.style.opacity = '1';
+            }, 100);
+            
+            // Initialize scroll animations
+            checkVisibility();
+        });
+        
+        // Scroll animations
+        function checkVisibility() {
+            const sections = document.querySelectorAll('section');
+            const windowHeight = window.innerHeight;
+            
+            sections.forEach(section => {
+                const sectionTop = section.getBoundingClientRect().top;
+                const sectionVisible = 150;
+                
+                if (sectionTop < windowHeight - sectionVisible) {
+                    section.classList.add('visible');
+                } else {
+                    section.classList.remove('visible');
+                }
+            });
+        }
+        
+        window.addEventListener('scroll', checkVisibility);
+
+        // Form submission handling (example)
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Formulário enviado com sucesso! Entraremos em contato em breve.');
+                form.reset();
+            });
+        });
+
+        // Dark mode toggle
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        
+        // Check for saved user preference or use system preference
+        const currentTheme = localStorage.getItem('theme') || (prefersDarkScheme.matches ? 'dark' : 'light');
+        if (currentTheme === 'dark') {
+            document.documentElement.classList.add('dark');
+        }
+        
+        // Toggle dark mode
+        darkModeToggle.addEventListener('click', function() {
+            const html = document.documentElement;
+            html.classList.toggle('dark');
+            
+            const theme = html.classList.contains('dark') ? 'dark' : 'light';
+            localStorage.setItem('theme', theme);
+        });
+    </script>
+</body>
+</html>
