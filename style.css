@@ -1,0 +1,85 @@
+
+:root {
+    --cor-primaria: #112459;
+    --cor-secundaria: #e9d29c;
+    --cor-destaque: #9a764b;
+}
+
+section {
+    transition: all 0.5s ease;
+    opacity: 0;
+    transform: translateY(20px);
+}
+section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.hero-gradient {
+    background: linear-gradient(135deg, var(--cor-primaria) 0%, var(--cor-destaque) 100%);
+}
+
+.testimonial-card,
+.service-card {
+    transition: all 0.4s ease;
+    transform: scale(1);
+}
+.testimonial-card:hover,
+.service-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.floating-button {
+    animation: pulse 2s infinite;
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 50;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    background-color: var(--cor-destaque) !important;
+}
+
+.practice-area-icon {
+    font-size: 2.5rem;
+    color: var(--cor-destaque);
+    margin-bottom: 1rem;
+}
+
+.dark {
+    background-color: var(--cor-primaria);
+    color: var(--cor-secundaria);
+}
+.dark .bg-white {
+    background-color: #1f2e50;
+}
+.dark .bg-gray-50 {
+    background-color: var(--cor-primaria);
+}
+.dark .text-gray-800 {
+    color: var(--cor-secundaria);
+}
+.dark .text-gray-600 {
+    color: #cfcfcf;
+}
+.dark .bg-gray-800 {
+    background-color: #1a1a1a;
+}
+.dark .bg-gray-700 {
+    background-color: #2a2a2a;
+}
+.dark .border {
+    border-color: #4a5568;
+}
+.dark .shadow-sm,
+.dark .shadow-md,
+.dark .shadow-lg {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
